@@ -110,8 +110,8 @@ Plug 'pbrisbin/vim-syntax-shakespeare'
 Plug 'arnaud-lb/vim-php-namespace'
 
 "" Include user's extra bundle
-if filereadable(expand("~/.vimrc.local.bundles"))
-  source ~/.vimrc.local.bundles
+if filereadable(expand("~/.vim/vimrc.local.bundles"))
+  source ~/.vim/vimrc.local.bundles
 endif
 
 call plug#end()
@@ -516,8 +516,8 @@ autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 
 
 "" Include user's local vim config
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
+if filereadable(expand("~/.vim/vimrc.local"))
+  source ~/.vim/vimrc.local
 endif
 
 "*****************************************************************************
