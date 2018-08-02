@@ -1,0 +1,157 @@
+set textwidth=80
+au BufRead,BufNewFile *.py setlocal textwidth=80
+
+" Local leader
+let maplocalleader = "\\"
+
+" Easymotion
+" <Leader>f{char} to move to {char}
+map  <Leader>t <Plug>(easymotion-bd-f)
+nmap <Leader>t <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+" Easy splitting
+set splitright
+set splitbelow
+
+" Ultisnips
+
+" make YCM compatible with UltiSnips (using supertab)
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
+" LATEX
+nmap <F12> :LLPStartPreview<cr>
+let g:livepreview_previewer = 'mupdf'
+let g:vimtex_view_general_viewer = 'mupdf'
+let g:vimtex_view_method = 'mupdf'
+
+let g:Tex_DefaultTargetFormat='pdf'
+let g:Tex_Flavor='latex'
+let g:Tex_ViewRule_pdf='mupdf'
+
+let g:livepreview_previewer = 'mupdf'
+
+" Remove trailing whitespaces
+"
+function! <SID>StripTrailingWhitespaces()
+	" Preparation: save last search, and cursor position.
+	let _s=@/
+	let l = line(".")
+	let c = col(".")
+	" Do the business:
+	%s/\s\+$//e
+	" Clean up: restore previous search history, and cursor position
+	let @/=_s
+	call cursor(l, c)
+endfunction
+
+autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
+
+" Python
+" nnoremap = :exec '!ipython' shellescape(@%, 1)<cr>
+
+" vnoremap // y/<C-R>"<CR>
+
+" Auto-Formatting
+" au BufWrite * :Autoformat
+let g:formatter_yapf_style = 'pep8'
+let g:autoformat_verbosemode=0 " Autoformat Debugging
+
+" Clang-Format
+let g:clang_format#command = 'clang-format-3.6'
+
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+
+" Cycle through buffer
+"
+nnoremap <silent> <Leader><Tab> :bnext<CR>
+nnoremap <silent> <Leader><S-Tab> :bprevious<CR>
+
+
+" YouCompleteMe
+"
+" let g:ycm_goto_buffer_command='vertical-split'
+" Complete even in strings?
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+" How many chars until completion triggers?
+let g:ycm_auto_trigger = 1
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_key_detailed_diagnostics = '<leader>d'
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_goto_buffer_command = 'vertical-split'
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
+let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
+let g:ycm_extra_conf_globlist=['~/.vim/*']
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_filetype_blacklist={
+            \ 'vim' : 1,
+            \ 'tagbar' : 1,
+            \ 'qf' : 1,
+            \ 'notes' : 1,
+            \ 'markdown' : 1,
+            \ 'md' : 1,
+            \ 'unite' : 1,
+            \ 'text' : 1,
+            \ 'vimwiki' : 1,
+            \ 'pandoc' : 1,
+            \ 'infolog' : 1,
+            \ 'objc' : 1,
+            \ 'mail' : 1
+\}
+
+nnoremap <silent> <Leader>yd :YcmCompleter GetDoc<CR>
+nnoremap <silent> <Leader>yf :YcmCompleter FixIt<CR>
+nnoremap <silent> <Leader>yg :YcmCompleter GoTo<CR>
+nnoremap <silent> <Leader>yi :YcmCompleter GoToInclude<CR>
+nnoremap <silent> <Leader>yt :YcmCompleter GetType<CR>
+nnoremap <silent> <Leader>ydec :YcmCompleter GoToDeclaration<CR>
+nnoremap <silent> <Leader>ydef :YcmCompleter GoToDefinition<CR>
+
+"" Nerdtree + Ctrlp
+let g:ctrlp_dont_split = 'NERD'
+map <leader>r :NERDTreeFind<cr>
+
+" CtrlP auto cache clearing
+function! SetupCtrlP()
+  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+    augroup CtrlPExtension
+      autocmd!
+      autocmd FocusGained  * CtrlPClearCache
+      autocmd BufWritePost * CtrlPClearCache
+    augroup END
+  endif
+endfunction
+if has("autocmd")
+  autocmd VimEnter * :call SetupCtrlP()
+endif
+
+
+" autocmd c,cpp nnoremap <silent> <Leader>ydef :tab split | YcmCompleter GoToDefinition
+"
+"
+
+" if !exists(“g:ycm_semantic_triggers”)
+"  let g:ycm_semantic_triggers = {}
+" endif
+"  let g:ycm_semantic_triggers[‘typescript’] = [‘.’]
